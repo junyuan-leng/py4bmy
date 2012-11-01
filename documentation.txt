@@ -1,0 +1,23 @@
+一般查询：bbs标题+作者搜索：
+post->http://bbs.xjtu.edu.cn/token/bbsbfind?type=1
+post->data:board:XJTUnews
+           title AND title2 NOT title3
+           userid
+           dt(天数以内)
+           mg:on(M文)
+           at:on(含有附件)
+           og:on(不含跟帖，只有主题贴)
+
+全文查询：bbs文章搜索：
+post->http://bbs.xjtu.edu.cn/token/bbsbfind?type=2
+post_data->board:XJTUgrd
+           content:test 
+
+
+bbs精华区查询：
+post->http://bbs.xjtu.edu.cn/token/bbsbfind?type=3
+post_data->board:XJTUnews
+           title:test
+
+bbs全站查询：
+GET http://bbs.xjtu.edu.cn/token/bbsfind?user=XXX&title=XXX&title2=XXX&title3=XXX&day=XXX
