@@ -51,7 +51,7 @@ def listFriend(token):
 
 #添加好友
 def addFriend(token,user,expression):
-    getUrl(token,'bbsfadd',userid=str(user),exp=str(expression))
+    getUrl(token,'bbsfadd',userid=str(user),exp=str(expression).decode('utf-8').encode('GB2312'))
     print '好友%s添加成功！' %user
 
 #删除好友
@@ -59,6 +59,16 @@ def removeFriend(token,user):
     getUrl(token,'bbsfdel',userid=str(user))
     print '好友%s删除成功！' %user
     
+#版面查询
+def generalQuery(token,board,user,title1,title2,title3,)
+
+#全文查询
+def fulltextQuery(token,board,content):
+    response=getUrl(token,'bbsbfind',type='2',board=str(board),content=str(content).decode('utf-8').encode('GB2312'))
+
+#精华区查询
+def  0anQuery(token,board,title):
+    response=getUrl(token,'bbsbfind',type='3',board=str(board),title=str(title).decode('utf-8').encode('GB2312'))
 
 #十大贴，需要知道每个主题贴的第一个帖子编号
 #获取本日十大
