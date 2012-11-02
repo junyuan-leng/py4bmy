@@ -22,13 +22,43 @@ def getUrl(token,suffix,**params):
     return response
     
 #获取登录token
-def getToken(user,passwd):
+def login(user,passwd):
     response=getUrl('','/BMY/bbslogin',id=user,pw=passwd)
     soup=BeautifulSoup(response)
     url=soup('meta')[1]['content']
     token=str(url)[7:]
     #擦，蛋疼
     return token
+
+#退出登录
+def logout(token):
+    getUrl(token,'bbslogout')
+    print '成功登出'
+
+#用户信息查询
+def getUserInfo(token,user):
+    response=getUrl(token,'bbsqry',userid=str(user))
+    soup=BeautifulSoup(response)
+    info=soup.findAll('font')
+    for i in info:
+	print i.string
+
+#获取好友列表
+def listFriend(token):
+    response=getUrl(token,'bbsfall')
+    soup=BeautifulSoup(response)
+    print soup.prettify()
+
+#添加好友
+def addFriend(token,user,expression):
+    getUrl(token,'bbsfadd',userid=str(user),exp=str(expression))
+    print '好友%s添加成功！' %user
+
+#删除好友
+def removeFriend(token,user):
+    getUrl(token,'bbsfdel',userid=str(user))
+    print '好友%s删除成功！' %user
+    
 
 #十大贴，需要知道每个主题贴的第一个帖子编号
 #获取本日十大
@@ -138,4 +168,5 @@ def post(token,board,title,signature,text):
     post_title=title.decode('utf-8').encode('GB2312')
     post_text=text.decode('utf-8').encode('GB2312')
     response=getUrl(token,'bbssnd',board=str(board),th='-1',title=post_title,signature=post_signature,text=post_text)
+
 
