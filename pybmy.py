@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 #encoding=utf-8
 #title:pybmy
 #author:deepurple
@@ -35,6 +35,8 @@ def logout(token):
     getUrl(token,'bbslogout')
     print '成功登出'
 
+#--------------------------------------------------------------------------
+
 #用户信息查询
 def getUserInfo(token,user):
     response=getUrl(token,'bbsqry',userid=str(user))
@@ -58,17 +60,21 @@ def addFriend(token,user,expression):
 def removeFriend(token,user):
     getUrl(token,'bbsfdel',userid=str(user))
     print '好友%s删除成功！' %user
-    
+
+#--------------------------------------------------------------------------
+
 #版面查询
-def generalQuery(token,board,user,title1,title2,title3,)
+#def generalQuery(token,board,user,title1,title2,title3,)
 
 #全文查询
 def fulltextQuery(token,board,content):
     response=getUrl(token,'bbsbfind',type='2',board=str(board),content=str(content).decode('utf-8').encode('GB2312'))
 
 #精华区查询
-def  0anQuery(token,board,title):
+def  jingHuaQuery(token,board,title):
     response=getUrl(token,'bbsbfind',type='3',board=str(board),title=str(title).decode('utf-8').encode('GB2312'))
+
+#--------------------------------------------------------------------------
 
 #十大贴，需要知道每个主题贴的第一个帖子编号
 #获取本日十大
@@ -158,19 +164,25 @@ def getPost(token,board):
     for i in post[3::6]:
 	hrefs.append(i.contents[0]['href'])
     print '帖子链接',hrefs
-	    
-    
+
+#---------------------------------------------------------------------------
 
 #获取收藏夹版面
-def getFavorite(token):
+def getFavoriteBoard(token):
     url=BMY+token+'boa?secstr=*'+'&sortmode=2/3'
     response=getUrl(token,'boa',secstr='*',sortmode='')
 
+#预订版面
+
+#退订版面
+
 #搜索相关版面
-def searchBoard(token,keyword):
+def searchRelatedBoard(token,keyword):
     response=getUrl(token,'bbssbs',keyword=str(keyword))
     soup=BeautifulSoup(response)
     print soup.prettify()
+
+#--------------------------------------------------------------------------
 
 #在版面发布主题帖
 def post(token,board,title,signature,text):
@@ -179,4 +191,35 @@ def post(token,board,title,signature,text):
     post_text=text.decode('utf-8').encode('GB2312')
     response=getUrl(token,'bbssnd',board=str(board),th='-1',title=post_title,signature=post_signature,text=post_text)
 
+#在版面进行回复
+def replyPost(token,board,title,signature,text):
 
+#转帖到版面
+def rePost(token,board,file_number,target):
+    getUrl(token,'bbsccc',board=str(board),file=str(file_number),target=str(target))
+    print '该帖子已成功转到%s版' % str(board)
+
+#转寄到信箱
+def fowardPost(token,board,file_number,target):
+    getUrl(token,'bbsfwd',board=str(board),file=str(file_number),target=str(target))
+    print '该帖子已成功转寄到%s的信箱' % str(target)
+
+#--------------------------------------------------------------------------
+
+#查看所有邮件
+
+#发送邮件
+def sendMail(token,userid,title,signature,text):
+    sendMail_title=title.decode('utf-8').encode('GB2312')
+    sendMail_text=text.decode('utf-8').encode('GB2312')
+    sendMail_signature=str(signature)
+    getUrl(token,'bbssndmail?userid=',userid=str(userid),title=sendMail_title,signature=sendMail_signature,text=sendMail_text)
+#查看新邮件
+
+
+/*
+签名档：0->无签名档
+       -1->随机签名档
+        1->第一个签名档
+*/
+    
